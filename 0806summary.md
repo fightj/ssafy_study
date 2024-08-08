@@ -181,3 +181,78 @@ def sol(N):
       dp[i] = dp[i-10] + 2 * dp[i-20]
 
 ```
+
+## 중복순열
+```python
+path=[]
+def kfc(x):          #111~666
+    if x==3:
+        print(path)
+        return
+    for i in range(1, 7):
+        path.append(i)
+        kfc(x+1)
+        path.pop()
+kfc(0)
+```
+```python
+path = []
+
+N = 0
+# type1은 중복순열
+def type1(x):
+    if x == N:
+        print(path)
+        return
+
+    for i in range(1, 7):
+        path.append(i)
+        type1(x + 1)
+        path.pop()
+# type2는 순열
+def type2(x):
+    if x == N:
+        print(path)
+        return
+
+    for i in range(1, 7):
+        if used[i] == True : continue
+        used[i] = True
+        path.append(i)
+        type2(x + 1)
+        path.pop()
+        used[i] = False
+
+N , type = map(int, input().split())
+used = [False for _ in range(7)]
+
+if type == 1:
+    type1(0)
+if type == 2:
+    type2(0)
+```
+
+- 주사위 3개 던져서 합이 10이하인 것의 갯수
+```python
+path = []
+
+N = 3
+cnt = 0
+# type1은 중복순열
+def type1(x, sum_v):
+    global cnt
+    if sum_v > 10:
+        return
+
+    if x == 3:
+        cnt += 1
+        return
+
+    for i in range(1, 7):
+        path.append(i)
+        type1(x + 1, sum_v + i)
+        path.pop()
+
+type1(0, 0)
+print(cnt)
+```
