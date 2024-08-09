@@ -28,5 +28,119 @@
    - 상태 공간 트리의 깊이 우선 검색을 실시한다.
    - 각 노드가 유망한지를 점검한다.
    - 만일 그 노드가 유망하지 않으면, 그 노드의 부모 노드로 돌아가서 검색을 계속한다.
+# 조합
+```python
+  arr = ['A', 'B', 'C', 'D', 'E']
 
+  for a in range(5):
+      start1 = a + 1
+      for b in range(start1, 5):
+          start2 = b + 1
+          for c in range(start2, 5)
+              print(arr[a], arr[b], [arr[c])
+  
+  # 5명 중에 n명 뽑는다
+  # branch = 5
+  # level = n
+
+  arr = ['A', 'B', 'C', 'D', 'E']
+  path = []
+  # 3명 뽑는다
+  n = 3
+  def run(lev, start):
+      if lev == n:
+          print(path)
+          return
+
+      for i in range(start, 5):
+          path.append(arr[i])
+          run(lev + 1, i + 1)
+          path.pop()
+  run(0, 0)
+```
 ## 부분집합
+  1. powerset을 구하는 백트래킹 알고리즘
+   ```python
+   def backtrack(a, k, n): # a주어진 배열, k 결정할 원소, n 원소의 개수
+    c = [0] * MAXCANDIDATES
+
+    if k==n:
+        process_solution(a, k) # 답이면 원하는 작업을 한다
+    else:
+        ncandidates = construct_candidates(a,k,n,c)
+        for i in range(ncandidates):
+            a[k] = c[i]
+            backtrack(a, k+1, n)
+
+  def construct_candidates(a,k,n,c):
+      c[0] = True
+      c[1] = False
+      return 2
+
+  def process_solution(a, k):
+      for i in range(k):
+          if a[i]:
+              print(num[i], end=' ')
+      print()
+
+  MAXCANDIDATES = 2
+  NMAX = 4
+  a = [0] *NMAX
+  num = [1, 2, 3, 4]
+  backtrack(a, 0, NMAX) 
+  ''' 
+  1 2 3 4 
+  1 2 3 
+  1 2 4 
+  1 2 
+  1 3 4 
+  1 3 
+  1 4 
+  1 
+  2 3 4 
+  2 3 
+  2 4 
+  2 
+  3 4 
+  3 
+  4 
+  공집합 포함해서 16개 출력. 2**n개
+  '''
+  ```
+```python
+# 부분집합의 합이 s인 것의 갯수 구하기.
+def count_subsets(nums, S, N):
+    count = 0
+    # 1 << N 은 2^N 이므로 n개의 원소가 있을 때 가능한 부분집합의 수를 나타낸다.
+    for bitmask in range(1 << N):
+        subset_sum = 0
+
+        # 비트마스크의 각 비트에 대해 해당 원소를 부분집합에 포함할지 결정한다.
+        for i in range(N):
+            if bitmask & (1 << i):
+                subset_sum += nums[i]
+
+        # 부분집합의 합이 목표값과 같다면 카운트를 증가시킨다.
+        if subset_sum == S:
+            count += 1
+
+    return count
+```
+
+```python
+# itertools를 사용한 부분집합 / 부분집합의 합이 s인 것의 갯수 구하기.
+import itertools
+
+t = int(input())
+for tc in range(1, t+1):
+
+    n, s = map(int, input().split())
+    arr = list(map(int, input().split()))
+    cnt = 0
+    for i in range(len(arr)+1):
+        subsets = list(itertools.combinations(arr, i))
+        for subset in subsets:
+            if sum(subset) == s:
+                cnt += 1
+```
+
